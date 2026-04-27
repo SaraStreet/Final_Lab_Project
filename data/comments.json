@@ -1,0 +1,32 @@
+[
+  {
+    "id": "a1b2c3d4-0001-0000-0000-000000000001",
+    "name": "Maria T.",
+    "comment": "The maple glazed donuts are absolutely divine. I stop here every Saturday morning — it's become a family tradition!",
+    "timestamp": "2025-04-10T09:15:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-0001-0000-0000-000000000002",
+    "name": "James R.",
+    "comment": "Best coffee in downtown, hands down. The staff always remembers my order. Love this place.",
+    "timestamp": "2025-04-12T08:30:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-0001-0000-0000-000000000003",
+    "name": "Sophie L.",
+    "comment": "The seasonal apple cider donut is everything. Waited 20 minutes in line and would do it again without hesitation.",
+    "timestamp": "2025-04-14T11:00:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-0001-0000-0000-000000000004",
+    "name": "David K.",
+    "comment": "Great atmosphere, cozy interior. My kids love the sprinkle donuts. We've been coming here since the 90s!",
+    "timestamp": "2025-04-15T07:45:00.000Z"
+  },
+  {
+    "id": "a1b2c3d4-0001-0000-0000-000000000005",
+    "name": "Priya N.",
+    "comment": "Genuinely the best donut shop I've found since moving here. The chocolate old-fashioned is perfection.",
+    "timestamp": "2025-04-17T10:20:00.000Z"
+  }
+]

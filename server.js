@@ -1,29 +1,57 @@
-/* Simple Node.js and Express application server for serving static assets.*/
-
 const express = require('express');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const path = require('path');
-const port = process.env.PORT || 8080;
+
+const commentsRouter = require('./routes/comments');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware to serve static files from the 'dist' directory
-// This directory should contain the built assets of your application
-// Ensure that the 'dist' directory exists and contains your static files.
-// You can have subdirectories in 'dist' for better organization.
-// For example, you might have 'dist/css', 'dist/js', etc.
-// The static files will be served at the root URL (e.g., http://localhost:8080/)
-app.use(express.static(__dirname + '/dist'));
+// ── Security & Logging ──────────────────────────────────────────────────────
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
+      fontSrc: ["'self'", 'fonts.gstatic.com'],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", 'data:'],
+    },
+  },
+}));
+app.use(morgan('dev'));
 
-// serve index.html for the root path
-app.get("/", function (request, response) {
-  response.sendFile(path.resolve(__dirname, 'index.html'));
+// ── Body Parsing ────────────────────────────────────────────────────────────
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ── Static Files ────────────────────────────────────────────────────────────
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ── Routes ───────────────────────────────────────────────────────────────────
+app.use('/api/comments', commentsRouter);
+
+// ── HTML Page Routes ─────────────────────────────────────────────────────────
+const pages = ['index', 'menu', 'about', 'comments'];
+pages.forEach(page => {
+  const route = page === 'index' ? '/' : `/${page}`;
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', `${page}.html`));
+  });
 });
 
-// example route to demonstrate server functionality
-// this can be accessed at http://localhost:8080/hello
-// and will respond with "Hello World, from the server!"
-app.get("/hello", function (request, response) {
-    response.send("Hello World, from the server!");
+// ── 404 Handler ──────────────────────────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-app.listen(port);
-console.log("server started on port " + port);
+// ── Global Error Handler ─────────────────────────────────────────────────────
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong. Please try again.' });
+});
+
+app.listen(PORT, () => {
+  console.log(`Downtown Donuts running at http://localhost:${PORT}`);
+});
