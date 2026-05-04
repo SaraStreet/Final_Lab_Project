@@ -1,6 +1,8 @@
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
+  @import url('https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@400;600&display=swap');
+
 
 /* Tablets and smaller desktops */
 @media (max-width: 1024px) {

@@ -1,7 +1,8 @@
 /* ============================================
    NAVIGATION STYLES
    ============================================ */
- 
+@import url('https://fonts.googleapis.com/css2?family=Italianno&family=Montserrat:wght@400;600;700&display=swap');
+
 .navbar {
   background: linear-gradient(135deg, #10291D, #1a3a2a);
   padding: 1rem 2rem;
@@ -10,7 +11,7 @@
   top: 0;
   z-index: 1000;
 }
- 
+
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -18,29 +19,28 @@
   justify-content: space-between;
   align-items: center;
 }
- 
+
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #F7C64A;
   text-decoration: none;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
- 
+
 .logo:hover {
-  color: #fff;
   transform: scale(1.05);
 }
- 
+
+/* FIXED SECTION BELOW */
 .logo-text {
-  font-family: 'Italianno', cursive;
-  font-size: 2rem;
+  font-family: 'Italianno', cursive; /* Corrected font name */
+  font-size: 2.8rem;                /* Increased size for visibility */
   color: #F7C64A;
+  font-weight: 400;                 /* Italianno looks best at normal weight */
+  line-height: 1;
 }
- 
+
 .nav-menu {
   display: flex;
   list-style: none;
@@ -48,11 +48,11 @@
   margin: 0;
   padding: 0;
 }
- 
+
 .nav-item {
   position: relative;
 }
- 
+
 .nav-link {
   display: block;
   color: #F7F7F7;
@@ -60,15 +60,16 @@
   padding: 1rem 1.5rem;
   transition: all 0.3s ease;
   position: relative;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 500;
 }
- 
+
 .nav-link:hover,
 .nav-link.active {
   color: #F7C64A;
   background-color: rgba(247, 198, 74, 0.1);
 }
- 
+
 .nav-link.active::after {
   content: '';
   position: absolute;
@@ -78,11 +79,10 @@
   height: 3px;
   background-color: #F7C64A;
 }
- 
+
 /* ============================================
    HAMBURGER MENU
    ============================================ */
- 
 .hamburger {
   display: none;
   flex-direction: column;
@@ -92,7 +92,7 @@
   cursor: pointer;
   gap: 0.35rem;
 }
- 
+
 .hamburger span {
   display: block;
   width: 25px;
@@ -101,28 +101,27 @@
   border-radius: 2px;
   transition: all 0.3s ease;
 }
- 
+
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(10px, 10px);
 }
- 
+
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
- 
+
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(7px, -7px);
 }
- 
+
 /* ============================================
    RESPONSIVE NAVIGATION
    ============================================ */
- 
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
   }
- 
+
   .nav-menu {
     position: absolute;
     left: 0;
@@ -136,36 +135,34 @@
     transition: max-height 0.3s ease;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   }
- 
+
   .nav-menu.active {
     max-height: 300px;
   }
- 
+
   .nav-item {
     width: 100%;
   }
- 
+
   .nav-link {
     padding: 1rem 2rem;
     border-bottom: 1px solid rgba(247, 198, 74, 0.1);
   }
- 
+
   .nav-link.active::after {
     display: none;
   }
- 
+
   .nav-link.active {
     background-color: rgba(247, 198, 74, 0.2);
     border-left: 4px solid #F7C64A;
   }
 }
- 
+
 /* ============================================
    KEYBOARD NAVIGATION FOCUS
    ============================================ */
- 
 .nav-link:focus-visible {
   outline: 3px solid #F7C64A;
   outline-offset: -3px;
 }
- 
