@@ -1,0 +1,469 @@
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets and smaller desktops */
+@media (max-width: 1024px) {
+  main {
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  .hero {
+    padding: 4rem 1rem;
+    margin: -2rem -1rem 2rem -1rem;
+  }
+
+  .hero-content h1 {
+    font-size: 3rem;
+  }
+
+  .cta-buttons,
+  .order-buttons {
+    gap: 0.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .menu-items {
+    gap: 1.5rem;
+  }
+
+  .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 768px) {
+  main {
+    padding: 1.5rem 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  p {
+    font-size: 0.95rem;
+  }
+
+  /* Hero section */
+  .hero {
+    padding: 3rem 1rem;
+    margin: -1.5rem -1rem 2rem -1rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .hero-content p {
+    font-size: 1.2rem;
+  }
+
+  /* Page header */
+  .page-header {
+    padding: 1.5rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  /* Features */
+  .features {
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  /* Buttons */
+  .cta-buttons,
+  .order-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.75rem;
+    width: 100%;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 2rem 1rem;
+    margin: 2rem 0;
+  }
+
+  .cta-section h2 {
+    border-bottom: none;
+  }
+
+  /* Info grid */
+  .info-grid,
+  .commitment-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Menu */
+  .menu-container {
+    padding: 1rem;
+  }
+
+  .menu-items {
+    gap: 1rem;
+  }
+
+  .menu-item {
+    padding: 1rem;
+  }
+
+  .item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+
+  /* About page */
+  .about-section {
+    padding: 1rem;
+  }
+
+  .visit-card {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+  }
+
+  .testimonial {
+    padding: 1rem;
+  }
+
+  /* Comments */
+  .comments-container {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .comment-form {
+    padding: 1rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.6rem;
+  }
+
+  /* Pagination */
+  .pagination {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pagination-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 2rem 1rem 0.5rem;
+  }
+
+  .footer-content {
+    gap: 1.5rem;
+  }
+
+  .footer-section h3 {
+    font-size: 1.1rem;
+  }
+
+  .footer-section p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  body {
+    font-size: 0.95rem;
+  }
+
+  main {
+    padding: 1rem 0.75rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar-container {
+    padding: 0;
+  }
+
+  .logo-text {
+    font-size: 1.5rem;
+  }
+
+  .hamburger span {
+    width: 20px;
+    height: 2.5px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 2rem 0.75rem;
+    margin: -1rem -0.75rem 1.5rem -0.75rem;
+  }
+
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Page header */
+  .page-header {
+    padding: 1.25rem 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-header p {
+    font-size: 1rem;
+  }
+
+  /* Feature cards */
+  .feature-card {
+    padding: 1.25rem;
+    border-left-width: 3px;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 1.5rem 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .cta-section p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Forms */
+  .comment-form {
+    padding: 1rem 0.75rem;
+  }
+
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-group label {
+    font-size: 0.95rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.5rem;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  #submit-btn {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 1.5rem 0.75rem 0.5rem;
+  }
+
+  .footer-content {
+    gap: 1rem;
+  }
+
+  .footer-section h3 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-section p {
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 360px) {
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+  }
+
+  .page-header {
+    padding: 1rem 0.5rem;
+  }
+
+  .hero {
+    padding: 1.5rem 0.5rem;
+    margin: -1rem -1rem 1rem -1rem;
+  }
+
+  .menu-item {
+    padding: 0.75rem;
+  }
+
+  .comments-container {
+    padding: 0.75rem;
+  }
+
+  .comment-form {
+    padding: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .footer,
+  .comment-form-section,
+  .hamburger {
+    display: none;
+  }
+
+  main {
+    padding: 0;
+  }
+
+  .page-header,
+  .hero,
+  .cta-section {
+    background: none;
+    color: #000;
+  }
+
+  a {
+    color: #000;
+  }
+
+  .btn {
+    border: 1px solid #000;
+  }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+  /* You can enhance dark mode support here if desired */
+  /* For now, the current color scheme works well in both light and dark */
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: more) {
+  .btn {
+    border-width: 2px;
+  }
+
+  .nav-link {
+    font-weight: 700;
+  }
+
+  .menu-item,
+  .comment-card {
+    border-width: 2px;
+  }
+}
