@@ -1,199 +1,139 @@
-const express = require('express');
-const router = express.Router();
- 
-// Validation constants
-const MAX_NAME_LENGTH = 100;
-const MAX_EMAIL_LENGTH = 255;
-const MAX_MESSAGE_LENGTH = 1000;
-const MIN_MESSAGE_LENGTH = 1;
- 
 /**
- * Sanitize user input to prevent XSS attacks
- * @param {string} str - The string to sanitize
- * @returns {string} - Sanitized string
+ * Comments Form Handler
+ * Manages comment submission, validation, and display
+ * Includes error handling and character counter
  */
-function sanitizeInput(str) {
-  if (typeof str !== 'string') return '';
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#x27;')
-    .trim();
-}
- 
-/**
- * Validate email format
- * @param {string} email - Email to validate
- * @returns {boolean} - Whether email is valid
- */
-function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
- 
-/**
- * Validate comment form data
- * @param {object} data - Data to validate
- * @returns {object} - { valid: boolean, errors: array }
- */
-function validateComment(data) {
-  const errors = [];
- 
-  // Validate name
-  if (!data.name || data.name.trim() === '') {
-    errors.push('Name is required');
-  } else if (data.name.length > MAX_NAME_LENGTH) {
-    errors.push(`Name must be less than ${MAX_NAME_LENGTH} characters`);
-  }
- 
-  // Validate email
-  if (!data.email || data.email.trim() === '') {
-    errors.push('Email is required');
-  } else if (data.email.length > MAX_EMAIL_LENGTH) {
-    errors.push(`Email is too long`);
-  } else if (!isValidEmail(data.email.trim())) {
-    errors.push('Please enter a valid email address');
-  }
- 
-  // Validate message
-  if (!data.message || data.message.trim() === '') {
-    errors.push('Comment cannot be empty');
-  } else if (data.message.trim().length < MIN_MESSAGE_LENGTH) {
-    errors.push('Comment must contain at least one character');
-  } else if (data.message.length > MAX_MESSAGE_LENGTH) {
-    errors.push(`Comment must be less than ${MAX_MESSAGE_LENGTH} characters (you provided ${data.message.length})`);
-  }
- 
-  return {
-    valid: errors.length === 0,
-    errors: errors
-  };
-}
- 
-// POST - Create a new comment
-router.post('/', function(req, res, next) {
-  try {
-    const { name, email, message } = req.body;
- 
-    // Validate input
-    const validation = validateComment({ name, email, message });
-    if (!validation.valid) {
-      return res.status(400).json({
-        success: false,
-        errors: validation.errors
-      });
-    }
- 
-    // Sanitize inputs
-    const sanitizedName = sanitizeInput(name);
-    const sanitizedEmail = sanitizeInput(email.toLowerCase());
-    const sanitizedMessage = sanitizeInput(message);
- 
-    // Insert into database
-    req.db.query(
-      'INSERT INTO comments (name, email, message, created_at) VALUES (?, ?, ?, NOW())',
-      [sanitizedName, sanitizedEmail, sanitizedMessage],
-      (err, results) => {
-        if (err) {
-          console.error('Error inserting comment:', err);
-          return res.status(500).json({
-            success: false,
-            errors: ['Unable to save comment. Please try again later.']
-          });
-        }
- 
-        // Fetch the newly created comment
-        req.db.query(
-          'SELECT id, name, email, message, created_at FROM comments WHERE id = ?',
-          [results.insertId],
-          (err, comments) => {
-            if (err) {
-              console.error('Error fetching new comment:', err);
-              return res.status(500).json({
-                success: false,
-                errors: ['Comment saved, but could not retrieve it.']
-              });
-            }
- 
-            res.json({
-              success: true,
-              comment: comments[0]
-            });
-          }
-        );
+
+document.addEventListener('DOMContentLoaded', function() {
+  const commentForm = document.getElementById('comment-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const messageField = document.getElementById('message');
+  const charCount = document.getElementById('char-count');
+  const formErrors = document.getElementById('form-errors');
+  const formSuccess = document.getElementById('form-success');
+
+  // Character counter
+  if (messageField && charCount) {
+    messageField.addEventListener('input', function() {
+      charCount.textContent = this.value.length;
+      
+      // Change color as user approaches limit
+      if (this.value.length > 900) {
+        charCount.parentElement.style.color = '#F7C64A';
+      } else if (this.value.length > 950) {
+        charCount.parentElement.style.color = '#c33';
+      } else {
+        charCount.parentElement.style.color = '#999999';
       }
-    );
-  } catch (error) {
-    console.error('Error creating comment:', error);
-    res.status(500).json({
-      success: false,
-      errors: ['An unexpected error occurred. Please try again.']
     });
   }
-});
- 
-// GET - Fetch comments with pagination
-router.get('/', function(req, res, next) {
-  try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const offset = (page - 1) * limit;
- 
-    if (page < 1 || limit < 1 || limit > 50) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid pagination parameters'
-      });
-    }
- 
-    // Get total count
-    req.db.query('SELECT COUNT(*) as total FROM comments', (err, countResults) => {
-      if (err) {
-        console.error('Error counting comments:', err);
-        return res.status(500).json({
-          success: false,
-          error: 'Unable to fetch comments'
+
+  // Form submission
+  if (commentForm) {
+    commentForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Hide previous messages
+      formErrors.style.display = 'none';
+      formSuccess.style.display = 'none';
+
+      // Disable submit button
+      submitBtn.disabled = true;
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Posting...';
+
+      try {
+        // Get form data
+        const formData = new FormData(commentForm);
+        const data = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          message: formData.get('message')
+        };
+
+        // Send request
+        const response = await fetch('/api/comments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
         });
-      }
- 
-      const total = countResults[0].total;
-      const totalPages = Math.ceil(total / limit);
- 
-      // Get paginated comments
-      req.db.query(
-        'SELECT id, name, email, message, created_at FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?',
-        [limit, offset],
-        (err, results) => {
-          if (err) {
-            console.error('Error fetching comments:', err);
-            return res.status(500).json({
-              success: false,
-              error: 'Unable to fetch comments'
-            });
-          }
- 
-          res.json({
-            success: true,
-            comments: results,
-            pagination: {
-              currentPage: page,
-              totalPages: totalPages,
-              total: total,
-              limit: limit
-            }
-          });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          // Handle validation or server errors
+          showErrors(result.errors || ['An error occurred. Please try again.']);
+        } else {
+          // Success
+          showSuccess();
+          commentForm.reset();
+          charCount.textContent = '0';
+          
+          // Reload comments after a short delay
+          setTimeout(function() {
+            location.reload();
+          }, 1500);
         }
-      );
-    });
-  } catch (error) {
-    console.error('Error fetching comments:', error);
-    res.status(500).json({
-      success: false,
-      error: 'An unexpected error occurred'
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+        showErrors(['Unable to post comment. Please check your connection and try again.']);
+      } finally {
+        // Re-enable submit button
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
     });
   }
+
+  /**
+   * Display validation errors
+   * @param {Array} errors - Array of error messages
+   */
+  function showErrors(errors) {
+    formErrors.innerHTML = '<ul>' + 
+      errors.map(error => `<li>${escapeHtml(error)}</li>`).join('') + 
+      '</ul>';
+    formErrors.style.display = 'block';
+    formErrors.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /**
+   * Display success message
+   */
+  function showSuccess() {
+    formSuccess.style.display = 'block';
+    formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  /**
+   * Escape HTML to prevent XSS
+   * @param {string} text - Text to escape
+   * @returns {string} - Escaped text
+   */
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Prevent double submission with rapid clicks
+  if (submitBtn) {
+    submitBtn.addEventListener('click', function() {
+      if (this.disabled) {
+        return false;
+      }
+    });
+  }
+
+  // Keyboard support for form submission
+  commentForm.addEventListener('keydown', function(event) {
+    // Allow Ctrl+Enter or Cmd+Enter to submit
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      if (!submitBtn.disabled) {
+        submitBtn.click();
+      }
+    }
+  });
 });
- 
-module.exports = router;

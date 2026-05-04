@@ -1,7 +1,58 @@
 doctype html
-html
+html(lang='en')
   head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='description', content='Downtown Donuts - Fresh donuts and coffee since 1992')
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/navigation.css')
+    link(rel='stylesheet', href='/stylesheets/responsive.css')
   body
-    block content
+    nav.navbar
+      .navbar-container
+        a.logo(href='/') 
+          span.logo-text Downtown Donuts
+        ul.nav-menu
+          li.nav-item
+            a.nav-link(href='/', class={active: page === 'home'}) Home
+          li.nav-item
+            a.nav-link(href='/menu', class={active: page === 'menu'}) Menu
+          li.nav-item
+            a.nav-link(href='/about', class={active: page === 'about'}) About
+          li.nav-item
+            a.nav-link(href='/comments', class={active: page === 'comments'}) Comments
+        button.hamburger
+          span
+          span
+          span
+
+    main
+      block content
+
+    footer.footer
+      .footer-content
+        .footer-section
+          h3 Downtown Donuts
+          p Family-owned since 1992
+          p 123 Main Street, Downtown
+          p(555) 867-5309
+
+        .footer-section
+          h3 Hours
+          p Mon-Fri: 6AM - 6PM
+          p Sat-Sun: 7AM - 4PM
+
+        .footer-section
+          h3 Order Online
+          p
+            a(href='https://www.ubereats.com', target='_blank', rel='noopener') UberEats
+            | &nbsp; • &nbsp;
+            a(href='https://www.doordash.com', target='_blank', rel='noopener') DoorDash
+            | &nbsp; • &nbsp;
+            a(href='https://www.grubhub.com', target='_blank', rel='noopener') GrubHub
+
+      .footer-bottom
+        p &copy; 2024 Downtown Donuts. All rights reserved.
+
+    script(src='/javascripts/navigation.js')

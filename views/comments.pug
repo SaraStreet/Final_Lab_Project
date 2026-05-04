@@ -1,0 +1,112 @@
+extends ../layout
+
+block content
+  .page-header
+    h1 Customer Comments
+    p Share your Downtown Donuts experience
+
+  .comments-container
+    // Comment Form
+    section.comment-form-section
+      h2 Leave a Comment
+      
+      #form-errors.form-errors(style='display: none;')
+      #form-success.form-success(style='display: none;')
+        p ✓ Thank you for your comment!
+
+      form#comment-form.comment-form
+        .form-group
+          label(for='name') Name
+          input#name(
+            type='text',
+            name='name',
+            maxlength='100',
+            placeholder='Your name',
+            required,
+            aria-label='Your name'
+          )
+
+        .form-group
+          label(for='email') Email
+          input#email(
+            type='email',
+            name='email',
+            maxlength='255',
+            placeholder='your@email.com',
+            required,
+            aria-label='Your email address'
+          )
+
+        .form-group
+          label(for='message') Comment
+          textarea#message(
+            name='message',
+            maxlength='1000',
+            rows='5',
+            placeholder='Share your thoughts about Downtown Donuts...',
+            required,
+            aria-label='Your comment'
+          )
+          .char-count
+            span#char-count 0
+            span /1000
+
+        button#submit-btn.btn.btn-primary(type='submit') Post Comment
+
+    // Comments Display Section
+    section.comments-display-section
+      h2 Recent Comments
+      
+      if error
+        .alert.alert-error
+          p= error
+
+      if comments && comments.length > 0
+        #comments-list.comments-list
+          each comment in comments
+            .comment-card
+              .comment-header
+                .comment-meta
+                  h3= comment.name
+                  p.comment-email= comment.email
+                time.comment-time(datetime=new Date(comment.created_at).toISOString())
+                  = formatTime(comment.created_at)
+
+              .comment-body
+                p= comment.message
+
+        // Pagination
+        if totalPages > 1
+          nav.pagination(aria-label='Comments pagination')
+            if hasPrevPage
+              a.pagination-link.prev(href=`/comments?page=${currentPage - 1}`) ← Previous
+            
+            .page-info
+              span= `Page ${currentPage} of ${totalPages}`
+            
+            if hasNextPage
+              a.pagination-link.next(href=`/comments?page=${currentPage + 1}`) Next →
+
+      else if !error
+        .no-comments
+          p Be the first to share your Downtown Donuts experience!
+
+  script(src='/javascripts/comments.js')
+
+  script.
+    // Helper function to format time for display
+    function formatTime(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const secondsAgo = Math.floor((now - date) / 1000);
+      
+      if (secondsAgo < 60) return 'just now';
+      const minutesAgo = Math.floor(secondsAgo / 60);
+      if (minutesAgo < 60) return minutesAgo + (minutesAgo === 1 ? ' minute ago' : ' minutes ago');
+      const hoursAgo = Math.floor(minutesAgo / 60);
+      if (hoursAgo < 24) return hoursAgo + (hoursAgo === 1 ? ' hour ago' : ' hours ago');
+      const daysAgo = Math.floor(hoursAgo / 24);
+      if (daysAgo < 7) return daysAgo + (daysAgo === 1 ? ' day ago' : ' days ago');
+      
+      return date.toLocaleDateString();
+    }
