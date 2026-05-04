@@ -1,8 +1,6 @@
 {
-  "name": "downtown-donuts",
-  "version": "1.0.0",
-  "description": "Full-Stack donut shop website",
-  "main":"server/server.js",
+  "name": "cs208-full-stack",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www"
