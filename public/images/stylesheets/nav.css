@@ -1,0 +1,171 @@
+/* ============================================
+   NAVIGATION STYLES
+   ============================================ */
+ 
+.navbar {
+  background: linear-gradient(135deg, #10291D, #1a3a2a);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+ 
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ 
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #F7C64A;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+ 
+.logo:hover {
+  color: #fff;
+  transform: scale(1.05);
+}
+ 
+.logo-text {
+  font-family: 'Italianno', cursive;
+  font-size: 2rem;
+  color: #F7C64A;
+}
+ 
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+ 
+.nav-item {
+  position: relative;
+}
+ 
+.nav-link {
+  display: block;
+  color: #F7F7F7;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 500;
+}
+ 
+.nav-link:hover,
+.nav-link.active {
+  color: #F7C64A;
+  background-color: rgba(247, 198, 74, 0.1);
+}
+ 
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 3px;
+  background-color: #F7C64A;
+}
+ 
+/* ============================================
+   HAMBURGER MENU
+   ============================================ */
+ 
+.hamburger {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  gap: 0.35rem;
+}
+ 
+.hamburger span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: #F7C64A;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+ 
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+ 
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+ 
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+ 
+/* ============================================
+   RESPONSIVE NAVIGATION
+   ============================================ */
+ 
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+ 
+  .nav-menu {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    background: #10291D;
+    flex-direction: column;
+    gap: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+ 
+  .nav-menu.active {
+    max-height: 300px;
+  }
+ 
+  .nav-item {
+    width: 100%;
+  }
+ 
+  .nav-link {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(247, 198, 74, 0.1);
+  }
+ 
+  .nav-link.active::after {
+    display: none;
+  }
+ 
+  .nav-link.active {
+    background-color: rgba(247, 198, 74, 0.2);
+    border-left: 4px solid #F7C64A;
+  }
+}
+ 
+/* ============================================
+   KEYBOARD NAVIGATION FOCUS
+   ============================================ */
+ 
+.nav-link:focus-visible {
+  outline: 3px solid #F7C64A;
+  outline-offset: -3px;
+}
+ 
