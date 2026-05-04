@@ -1,56 +1,102 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next){
+// GET landing page
+router.get('/', function(req, res, next) {
   try {
-    req.db.query('SELECT * FROM todos;', (err, results) => {
-      if (err) {
-        console.error('Error fetching todos:', err);
-        return res.status(500).send('Error fetching todos');
-      }
-      res.render('index', { title: 'My Simple TODO', todos: results });
+    res.render('pages/home', { 
+      title: 'Downtown Donuts - Fresh Donuts & Coffee Since 1992',
+      page: 'home'
     });
   } catch (error) {
-    console.error('Error fetching items:', error);
-    res.status(500).send('Error fetching items');
+    console.error('Error loading home page:', error);
+    res.status(500).send('Error loading home page');
   }
 });
 
-router.post('/create', function (req, res, next) {
-    const { task } = req.body;
-    try {
-      req.db.query('INSERT INTO todos (task) VALUES (?);', [task], (err, results) => {
-        if (err) {
-          console.error('Error adding todo:', err);
-          return res.status(500).send('Error adding todo');
-        }
-        console.log('Todo added successfully:', results);
-        // Redirect to the home page after adding
-        res.redirect('/');
-      });
-    } catch (error) {
-      console.error('Error adding todo:', error);
-      res.status(500).send('Error adding todo');
-    }
+// GET menu page
+router.get('/menu', function(req, res, next) {
+  try {
+    res.render('pages/menu', { 
+      title: 'Our Menu - Downtown Donuts',
+      page: 'menu'
+    });
+  } catch (error) {
+    console.error('Error loading menu page:', error);
+    res.status(500).send('Error loading menu page');
+  }
 });
 
-router.post('/delete', function (req, res, next) {
-    const { id } = req.body;
-    try {
-      req.db.query('DELETE FROM todos WHERE id = ?;', [id], (err, results) => {
-        if (err) {
-          console.error('Error deleting todo:', err);
-          return res.status(500).send('Error deleting todo');
-        }
-        console.log('Todo deleted successfully:', results);
-        // Redirect to the home page after deletion
-        res.redirect('/');
+// GET about page
+router.get('/about', function(req, res, next) {
+  try {
+    res.render('pages/about', { 
+      title: 'About Us - Downtown Donuts',
+      page: 'about'
     });
-    }catch (error) {
-        console.error('Error deleting todo:', error);
-        res.status(500).send('Error deleting todo:');
-    }
+  } catch (error) {
+    console.error('Error loading about page:', error);
+    res.status(500).send('Error loading about page');
+  }
+});
+
+// GET comments page
+router.get('/comments', function(req, res, next) {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const commentsPerPage = 10;
+    const offset = (page - 1) * commentsPerPage;
+
+    // Get total count
+    req.db.query('SELECT COUNT(*) as total FROM comments', (err, countResults) => {
+      if (err) {
+        console.error('Error counting comments:', err);
+        return res.render('pages/comments', {
+          title: 'Customer Comments - Downtown Donuts',
+          page: 'comments',
+          comments: [],
+          currentPage: 1,
+          totalPages: 1,
+          error: 'Unable to load comments at this time'
+        });
+      }
+
+      const totalComments = countResults[0].total;
+      const totalPages = Math.ceil(totalComments / commentsPerPage);
+
+      // Get paginated comments
+      req.db.query(
+        'SELECT * FROM comments ORDER BY created_at DESC LIMIT ? OFFSET ?',
+        [commentsPerPage, offset],
+        (err, results) => {
+          if (err) {
+            console.error('Error fetching comments:', err);
+            return res.render('pages/comments', {
+              title: 'Customer Comments - Downtown Donuts',
+              page: 'comments',
+              comments: [],
+              currentPage: page,
+              totalPages: totalPages,
+              error: 'Unable to load comments at this time'
+            });
+          }
+
+          res.render('pages/comments', {
+            title: 'Customer Comments - Downtown Donuts',
+            page: 'comments',
+            comments: results,
+            currentPage: page,
+            totalPages: totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+          });
+        }
+      );
+    });
+  } catch (error) {
+    console.error('Error loading comments page:', error);
+    res.status(500).send('Error loading comments page');
+  }
 });
 
 module.exports = router;
